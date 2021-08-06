@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<style>
+    .test_button {
+        border: 1px;
+        padding: 12px;
+        background: yellow;
+        background-clip: padding-box;
+        width: 200px;
+        text-align: center;
+        border-radius: 12px;
+    }
+
+    textarea {
+       width:100%;/*自动适应父布局宽度 */
+       overflow:auto;
+       word-break:break-all;
+      }
+
+
+</style>
+
+<body>
+
+    <script>
+            window.refreshProgress = function (packageName,progress) {
+                console.log('reportDownloadTaskProgress -->', progress)
+                document.getElementById("download_task_progress").innerHTML = "包名："+packageName+"  下载进度: " + progress + "%"
+            }
+
+             window.refreshPage = function (packageName,progress) {
+                console.log('refreshPage -->')
+                alert('收到客户端onResume回调')
+            }
+
+              function openApp(){
+                   try {
+                        var text1 = document.getElementById('ins_pac').value
+                         var text = window.midong.openApp(text1)
+                  } catch(err) {
+                       document.getElementById("openapp").innerHTML = "协议方法异常："+err.message;
+                  }
+             }
+
+              function openAppByDeepLink(){
+                   try {
+                        var text1 = document.getElementById('deelplin').value
+                        var text = window.midong.openAppByDeepLink(text1)
+                      } catch(err) {
+                           document.getElementById("opendeeplink").innerHTML = "协议方法异常："+err.message;
+                      }
+             }
+
+             function downloadApkByUrl(){
+                  try {
+                          var download_pac = document.getElementById('download_pac').value
+                          var download_name = document.getElementById('download_name').value
+                          var download_url = document.getElementById('download_url').value
+                          var text = window.midong.downloadApkByUrl(download_url,download_name,download_pac)
+                      } catch(err) {
+                           document.getElementById("downloadapp").innerHTML = "协议方法异常："+err.message;
+                      }
+             }
+
+             function isAppInstalled(){
+                  try {
+                      var text1 = document.getElementById('pac').value
+                      var text = window.midong.isAppInstalled(text1)
+                      document.getElementById('package2').innerHTML= '包名为' +text1+"的应用是否已安装：" + text;
+                  } catch(err) {
+                      document.getElementById("package2").innerHTML = "协议方法异常："+err.message;
+                  }
+             }
+
+            function getImei(){
+                try {
+                    var text = window.midong.imei()
+                    document.getElementById('imei').innerHTML= '获取设备 imei:'+ text;
+                } catch(err) {
+                    document.getElementById("imei").innerHTML = "协议方法异常："+err.message;
+                }
+            }
+
+             function getOaid(){
+                try {
+                    var text = window.midong.oaid()
+                    document.getElementById('oaid').innerHTML= '获取设备 oaid:'+ text;
+                } catch(err) {
+                    document.getElementById("oaid").innerHTML = "协议方法异常："+err.message;
+                }
+             }
+
+             function getAndroidid(){
+                try {
+                    var text = window.midong.androidid()
+                    document.getElementById('androidid').innerHTML= '获取设备 androidid:'+ text;
+                } catch(err) {
+                    document.getElementById("androidid").innerHTML = "协议方法异常："+err.message;
+                }
+             }
+
+              function getPackageName(){
+                  try {
+                      var text = window.midong.getPackage()
+                      document.getElementById('packageName2').innerHTML= '获取当前应用包名:'+ text;
+                  } catch(err) {
+                      document.getElementById("packageName2").innerHTML = "协议方法异常："+err.message;
+                  }
+             }
+
+              function getAppVersionCode(){
+                  try {
+                        var text1 = document.getElementById('pacver').value
+                        var text = window.midong.getAppVersionCode(text1)
+                        document.getElementById('pac_version').innerHTML= '包名为' +text1+"的应用版本号为：" + text;
+                  } catch(err) {
+                      document.getElementById("pac_version").innerHTML = "协议方法异常："+err.message;
+                  }
+             }
+
+
+
+              function openAppByMarket(){
+                   try {
+                         var text1 = document.getElementById('app_pac').value
+                         var text2 = document.getElementById('market_pac').value
+                         window.midong.openAppByMarket(text1,text2)
+                  } catch(err) {
+                       document.getElementById("openmarket").innerHTML = "协议方法异常："+err.message;
+                  }
+
+             }
+
+
+
+
+    </script>
+    <h2 style="text-align:center">愉悦赚H5协议调试工具</h2>
+
+    <p id="openapp">1、唤起应用,包名：<input type="text" id="ins_pac" value="com.tencent.mm"></p>
+    <div class="test_button" onclick="openApp()">openApp</div>
+
+
+    <p id="opendeeplink">2、根据深度链接打开app</p>
+    <p><textarea type="text" id="deelplin" width="80%">tbopen://m.taobao.com/tbopen/index.html?source=auto&action=ali.open.nav&module=h5&bootImage=0&h5Url=https://s.click.taobao.com/Gov8viv</textarea>
+    </p>
+    <div class="test_button" onclick="openAppByDeepLink()">openAppByDeepLink</div>
+
+
+    <p id="downloadapp"> 3、应用apk下载</p>
+    <p>包名：<input type="text" id="download_pac" value="com.crazy.money"></p>
+    <p>app名：<input type="text" id="download_name" value="疯狂账单"></p>
+    <p>下载链接：<input type="text" id="download_url"
+                   value="http://www.qingteng.store/apk/com.crazy.money.apk"></p>
+    <div class="test_button" onclick="downloadApkByUrl()">downloadApkByUrl</div>
+    <p id="download_task_progress">下载进度: 0%</p>
+
+
+    <p id="package2">4、判断apk是否已安装,请输入包名 </p>
+    <p><input type="text" name="packageName" id="pac" value="com.tencent.mm"></p>
+    <div class="test_button" onclick="isAppInstalled()">isAppInstalled</div>
+
+
+    <p id="imei">5、获取设备imei:</p>
+    <div class="test_button" onclick="getImei()">imei</div>
+
+
+    <p id="oaid">6、获取设备oaid:</p>
+    <div class="test_button" onclick="getOaid()">oaid</div>
+
+    <p id="androidid">7、获取设备androidid</p>
+    <div class="test_button" onclick="getAndroidid()">androidid</div>
+
+
+    <p id="packageName2">8、获取当前应用包名:</p>
+    <div class="test_button" onclick="getPackageName()">getPackage</div>
+
+
+    <p id="pac_version">9、获取应用版本号</p>
+    <p><input type="text" id="pacver" value="com.tencent.mm"></p>
+    <div class="test_button" onclick="getAppVersionCode()">getAppVersionCode</div>
+
+    <p id="openmarket">10、跳到应用市场指定app详情页</p>
+    <div>app包名：<input type="text" id="app_pac" value="com.tencent.mm"></div>
+    <p>应用市场包名：<input type="text" id="market_pac" value="com.huawei.appmarket"></p>
+    <div class="test_button" onclick="openAppByMarket()">openAppByMarket</div>
+
+    <p>11、销毁当前页面</p>
+    <div class="test_button" onclick="window.midong.finishPage()">finishPage</div>
+
+</body>
+
+</html>
